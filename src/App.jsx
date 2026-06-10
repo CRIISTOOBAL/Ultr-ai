@@ -6,258 +6,385 @@ const BRAND = {
 };
 
 const PROC_COLOR = { "ANG-P-105":"#1A6FB0", "ANG-P-146":"#8B6914", "ANG-P-250":"#8B1A1A" };
-const PROC_LABEL = { "ANG-P-105":"Contenedores", "ANG-P-146":"Carga Gral / Heavy Lift", "ANG-P-250":"Chatarra" };
+const PROC_LABEL = {
+  "ANG-P-105":"Embarque y Descarga de Contenedores",
+  "ANG-P-146":"Carga General / Heavy Lift",
+  "ANG-P-250":"Embarque de Chatarra"
+};
 const PROC_EMOJI = { "ANG-P-105":"📦", "ANG-P-146":"🏗️", "ANG-P-250":"🔩" };
 
-const DOCS = [
-  { id:1, proc:"ANG-P-105", section:"7.1 — Inicio de operación (DDS / ART)",
-    keys:["inicio","dds","art","dialogo","charla","turno","comenzar","arrancar","iniciar","firma","registro","empezar","secuencia"],
-    response:`**7.1 — Inicio de Operación: DDS y ART**\n\nAntes de comenzar la faena:\n1. Ejecutar el **Diálogo Diario de Seguridad (DDS)** — a cargo del Coordinador de Operaciones Marítimas\n2. Todos los trabajadores firman el registro DDS, confirmando condiciones físicas y psicológicas aptas\n3. Realizar el **Análisis de Riesgo de la Tarea (ART)** — formulario F-SIG-051\n4. Verificar check-list de equipos\n5. Asegurar que el área de trabajo esté ordenada y limpia\n\n**Responsable:** Coordinador de Operaciones Marítimas o Encargado de Nave/Tierra.` },
-  { id:2, proc:"ANG-P-105", section:"7.2/7.3 — Ingreso al buque / portalón",
-    keys:["ingreso","portalon","jaula","escalera","nave","buque","acceso","subir","bajar","ingresar","acceder","banda","malla"],
-    response:`**7.2/7.3 — Ingreso al Buque y Tránsito por Portalón**\n\nEl ingreso puede ser por: **Portalón, Jaula** o **Escalera real con red protectora**.\n\n- Inspeccionar la estructura antes de usarla\n- Mantener **mínimo 3 puntos de apoyo**\n- El portalón debe tener al menos **5 metros** entre su base y el borde del muelle\n- Personal externo requiere autorización del Coordinador de Operaciones Marítimas\n- Usar arnés con doble cabo en escaleras verticales a bodega\n\n**Prohibido:** saltar desde escala o desde la banda de la nave al muelle.` },
-  { id:3, proc:"ANG-P-105", section:"7.4 — Uso de canastillo",
-    keys:["canastillo","cesto","elevacion","personas","izar","canasto"],
-    response:`**7.4 — Uso de Canastillo**\n\n- Mantener el canastillo limpio y libre de obstáculos\n- Respetar los **límites de peso y cantidad de personas**\n- Inspeccionar estructura, grilletes y cables antes de cada uso\n- **Arnés obligatorio** — enganchar cola de seguridad a la baranda interior\n- Cola de vida no debe quedar colgando\n- El operador de la grúa solo levanta con la señal del supervisor\n- Prohibido saltar o trepar fuera del canastillo` },
-  { id:4, proc:"ANG-P-105", section:"7.5 — Tránsito en cubierta y paillos",
-    keys:["cubierta","paillo","pasillo","bay","transito","caminar","desplazar"],
-    response:`**7.5 — Tránsito en Cubierta y Paillos**\n\n- Transitar por vías despejadas y segregadas\n- Mantener área ordenada y limpia\n- Comunicación permanente vía radio\n- Usar apoya manos — mínimo **3 puntos de apoyo**\n- Uso de EPP básico y arnés de seguridad\n- **Prohibido usar el celular** en zonas operativas\n- Mantener escotillas cerradas` },
-  { id:5, proc:"ANG-P-105", section:"7.6 — Movimiento de pontones",
-    keys:["ponton","pontones","tapa","bodega","escotilla","mover","movimiento"],
-    response:`**7.6 — Movimiento de Pontones**\n\n- Transitar por vías despejadas y segregadas\n- Comunicación permanente vía radio\n- Uso de EPP básico y **arnés de seguridad**\n- Al conectar/desconectar pontones: **no exponerse bajo la carga suspendida**\n- **Avisar a todo el personal cercano** antes de iniciar el movimiento\n- Se permite apilar **hasta 3 tapas de alto**` },
-  { id:6, proc:"ANG-P-105", section:"7.7 — Destrinca y trinca de contenedores",
-    keys:["trinca","destrinca","trincar","destrincar","varilla","tensor","maniobra contenedor","dupla","row","fila","contenedor"],
-    response:`**7.7 — Destrinca y Trinca de Contenedores en Nave**\n\n**Regla fundamental:** mantener al menos **3 ROW de distancia** de la posición de trabajo de la grúa.\n\n1. Inspeccionar la nave previamente\n2. Verificar que todas las escotillas estén cerradas antes de iniciar\n3. Trabajar siempre **en dupla** (2 personas)\n4. Un movilizador sostiene la varilla mientras el otro trinca/destrinca\n5. Una vez separada la varilla: el compañero se aleja **al menos 2 filas**\n6. Usar **guantes anti-golpe** en todo momento\n7. **Prohibido lanzar varillas o tensores**` },
-  { id:7, proc:"ANG-P-105", section:"7.8 — Apertura y cierre de twistlock / piñas",
-    keys:["twistlock","pina","piña","piñas","baston","destrabar","apertura","cierre","martillo","abrir","cerrar"],
-    response:`**7.8 — Apertura y Cierre de Twistlock / Piñas**\n\n**Preferencia:** abrir desde la cubierta para evitar exponer trabajadores sobre el top de la estiba.\n\n**Si se debe abrir desde el top:**\n1. Trasladar trabajadores en **canastillo** hasta el centro de la estiba\n2. Conectar arnés al **sistema bastón**\n3. Avanzar desde el centro al extremo — bastón a **mínimo 1 metro del borde**\n4. Proceder a apertura de twistlocks desde el borde\n\n**Twistlock trabado:** usar **martillo pico pato**.\n**Prohibido:** destrabar una piña con otra piña.` },
-  { id:8, proc:"ANG-P-105", section:"7.9/7.10 — Check list grúa tierra y spreader",
-    keys:["checklist","check","spreader","grua tierra","alarma grua","revision grua","mantencion","licencia","carnet"],
-    response:`**7.9/7.10 — Check List Grúa Tierra y Protocolo de Entrega de Spreader**\n\n- El operador realiza revisión mediante check list antes del turno\n- Operadores deben portar **licencia de conducir y carnet portuario**\n\n**Alarmas:** reportar al Encargado de Nave → asistencia **presencial** de Mantención PANG (no vía teléfono)\n\n**Spreader:** check list previo al turno, ejecutado por personal Ultraport junto con Mantención Puerto Angamos.` },
-  { id:9, proc:"ANG-P-105", section:"7.11 — Inspección interior de nave",
-    keys:["inspeccion interior","bodega contenedor","interior nave","condiciones nave","verificar nave","revisar nave"],
-    response:`**7.11 — Inspección Condiciones al Interior de la Nave**\n\n- Comunicación permanente vía radio\n- Revisión de equipos, herramientas y accesorios de elevación\n- Mantener área limpia y ordenada\n- Uso de EPP básico y **arnés de seguridad**\n- Solicitar a la tripulación instalar **líneas de vida o running** en bodegas abiertas\n- Verificar iluminación adecuada en todas las áreas` },
-  { id:10, proc:"ANG-P-105", section:"7.12/7.13 — Descarga de contenedores",
-    keys:["descarga contenedor","descargar contenedor","tracto contenedor","camion contenedor","rampla contenedor","bajar contenedor"],
-    response:`**7.12/7.13 — Descarga de Contenedores**\n\n- El área de posicionamiento debe estar **segregada y conificada** con baliza\n- Coordinador elabora circuito de ingreso de camiones\n- Velocidad máxima en muelle: **25 km/h con luces encendidas**\n- Al estacionar, conductor aplica freno, apaga equipo y espera en la **safety zone**\n\n**Contenedores de alto tonelaje:** velocidad máxima en traslado **10 km/h**; en radio de giro **5 km/h**\n\n**Prohibido:** exponerse a cargas suspendidas.` },
-  { id:11, proc:"ANG-P-105", section:"7.14 — Retiro de twistlock en estación",
-    keys:["retiro piñas","estacion piñas","zona piñas","acopio piñas"],
-    response:`**7.14 — Retiro de Twistlock en Estación**\n\n- El Coordinador indica la zona donde se instalará la estación de retiro\n- La zona debe estar **segregada antes del inicio**\n- **Prohibido lanzar los twistlock**\n- Usar **guantes anti-golpe** para el retiro\n- Totalmente prohibido destrabar una piña con otra piña` },
-  { id:12, proc:"ANG-P-105", section:"7.15 — Carga / embarque de contenedores",
-    keys:["embarque contenedor","cargar contenedor","estacion piñas carga","cuña contenedor","tarjador"],
-    response:`**7.15 — Carga / Embarque de Contenedores**\n\n- Área de posicionamiento segregada con **barreras duras o New Jersey** y señal pare/siga\n- Camión debe quedar en línea (sin articulación)\n- Velocidad máxima: **25 km/h con luces encendidas**\n\n**Proceso en estación de piñas:**\n1. Movilizador coloca señal **PARE/SIGA** al frente de la cabina\n2. Segundo movilizador instala **cuña móvil** en rueda de tracción\n3. Movilizadores instalan twistlocks y el tarjador documenta la unidad\n4. Verificar que cada piña quede bien calzada\n5. Retirar cuña y señal PARE/SIGA solo cuando todos estén fuera del área` },
-  { id:19, proc:"ANG-P-105", section:"EPP obligatorio — Contenedores",
-    keys:["epp contenedor","proteccion contenedor","arnes contenedor"],
-    response:`**EPP de Uso Obligatorio — ANG-P-105 (Contenedores)**\n\n- Casco de seguridad\n- Lentes de seguridad oscuros (día) y claros (noche)\n- Guantes anti-golpe / anti-corte\n- Zapatos de seguridad con punta de acero\n- Barbiquejo\n- **Arnés de seguridad con dos cabos de vida en "Y" de acero**\n- Sunflap o protector de nuca / crema con filtro UV\n\n**Arnés obligatorio en:** trabajos sobre 1,8 m, acceso a escalas de cubierta, trinca/destrinca, apertura de twistlocks en top de estiba.` },
-  { id:20, proc:"ANG-P-105", section:"Teléfonos de emergencia",
-    keys:["telefono","emergencia","llamar","contacto","numero","ambulancia","bomberos","hse","ist","hospital","accidente","urgencia"],
-    response:`**Teléfonos de Emergencia — Ultraport Angamos**\n\n- HSE Ultraport Angamos (turno): **9 1953 1990**\n- HSEQ Puerto Angamos (Tatiana Lobos): **9 5333 1673**\n- IST Puerto Angamos Ambulancia 1: **9 6468 4816**\n- IST Puerto Angamos Ambulancia 2: **9 5396 5350**\n- Capitanía de Puerto Mejillones: **055-(2) 621513**\n- Bomberos Mejillones: **55-(2) 621591**\n- Hospital Mejillones: **55-(2) 621575**\n- Mutual de Seguridad Mejillones: **9 6652 0333**\n- IST Antofagasta: **055-(2) 222559**` },
-  { id:21, proc:"ANG-P-105", section:"Definiciones y glosario",
-    keys:["definicion","glosario","significa","spreader","portalon","incidente","accidente","derrame","respel","residuo","riesgo","batea","safety zone"],
-    response:`**Definiciones — Procedimientos Ultraport Angamos**\n\n- **Portalón:** Pasarela de fierro con piso de madera que se engancha al buque para subir/bajar de la cubierta\n- **Spreader:** Herramienta colocada entre la grúa y el contenedor para engancharlo, levantarlo y bajarlo de forma segura\n- **Accidente:** Evento no planificado que causa lesiones a personas o daños a equipos o instalaciones\n- **Incidente:** Evento que no causó daños pero que pudo haberlos causado\n- **Derrame:** Caída o escape no controlado de líquidos o materiales\n- **RESPEL:** Residuo Peligroso\n- **EPP:** Equipo de Protección Personal\n- **Batea:** Contenedor tipo tolva utilizado en embarque de chatarra\n- **Safety Zone:** Zona segura delimitada fuera del radio de acción de la grúa` },
-  { id:30, proc:"ANG-P-146", section:"Sec. 8-9 — Inicio operación Heavy Lift (DDS / ART / Pre-operativa)",
-    keys:["heavy lift","heavylift","carga general","preoperativa","bulto","bultos","izaje heavy","plano izaje","packing list","gravedad"],
-    response:`**ANG-P-146 — Inicio Operación Carga General / Heavy Lift**\n\nAntes de iniciar la faena el Coordinador Marítimo debe:\n1. Ejecutar **DDS** y **ART** con todo el personal de turno\n2. Revisar **Planos de Embarque/Descarga**, Packing List y diagramas de gravedad del Heavy Lift\n3. Para H.L.: compartir diagramas de izaje, centro de gravedad y utilería con los encargados\n4. Confirmar check list de nave — señalizar mediante letreros "PELIGRO CARGA SUSPENDIDA"\n5. Definir circuito de ingreso de camiones y área de acopio\n\n**Documentación requerida del cliente (24 hrs antes del arribo):** forma de enganche, peso, CG, cuidados especiales, puntos de izaje, instrucciones de nave y tierra.` },
-  { id:31, proc:"ANG-P-146", section:"Sec. 12/13 — Ingreso al buque / Tránsito en nave (Carga General)",
-    keys:["ingreso nave heavy","transito nave heavy","portalon heavy","acceso nave carga general"],
-    response:`**ANG-P-146 — Ingreso al Buque / Tránsito en Nave (Carga General)**\n\n- El ingreso a nave se debe realizar bajo lo establecido en **ANG-I-023**\n- Transitar por vías despejadas y segregadas\n- Mantener área limpia; comunicación permanente vía radio\n- Uso de EPP y arnés sobre 1,8 m\n- Prohibición de fumar en sectores de faena\n- El Encargado de Nave identifica zonas de caída y habilita protecciones\n- Prohibido transitar en lugares no habilitados` },
-  { id:32, proc:"ANG-P-146", section:"Sec. 16 — Preparación muelle / Pre-operativa Heavy Lift",
-    keys:["preparacion muelle heavy","muelle carga general","encargado tierra heavy","acopio heavy","single","tandem modalidad","modalidad"],
-    response:`**ANG-P-146 — Preparación Muelle Carga General / Heavy Lift**\n\nEl Coordinador Marítimo informa al grupo de encargados:\n- Tipo de nave, tipo de carga y maquinaria a utilizar\n- Se deben definir y señalizar con conos las áreas: zona de acopio, zona de destrinca y zona segura\n- **No exponerse extremidades ni cuerpo bajo carga suspendida**\n- Señalizar la ubicación en donde se detendrá el camión más el letrero de "Pare y Siga"\n- **Velocidad máxima en radio de giro:** 7 km/h para tracto camiones` },
-  { id:33, proc:"ANG-P-146", section:"Sec. 17 — Posicionamiento camión porteador (Carga General)",
-    keys:["posicionamiento camion heavy","camion porteador heavy","estacionar heavy","freno heavy","posicion camion carga"],
-    response:`**ANG-P-146 — Posicionamiento Camión Porteador (Carga General)**\n\n- El camión se posiciona hacia los costados del sitio de trabajo (de aeropuerto)\n- Una vez estacionado: motor detenido, freno de parqueo activado, conductor desciende y se posiciona en zona segura\n- Personal Ultraport ubicará **1 letrero de pare y siga** al frente de la cabina más cuña metálica en neumático delantero\n- **Velocidad máxima en radio de giro tracto camión:** 7 km/h` },
-  { id:34, proc:"ANG-P-146", section:"Sec. 18/19 — Destrinca y Trinca (Carga General / Bodega)",
-    keys:["destrinca carga","trinca carga","bodega destrinca","capataz bodega","trinca bodega","destrinca heavy"],
-    response:`**ANG-P-146 — Destrinca y Trinca (Carga General / Bodega)**\n\nLa destrinca se realiza **en bodega** — el capataz de bodega supervisa constantemente orden, iluminación y condiciones.\n\n- Encargado de nave evalúa riesgos y aplica check list antes de comenzar\n- Cables y cadenas deben ser ordenados en el lugar designado, evitando que puedan enredarse\n- La destrinca se realiza siempre a **mínimo 2 movilizadores**\n- En caso de trabajo en altura (2 niveles o más): usar arnés y protocolos de altura\n- Todo trabajador que suba al canastillo debe usar arnés con cuerda de vida anclado` },
-  { id:35, proc:"ANG-P-146", section:"Sec. 20 — Enganche / Desenganche Heavy Lift",
-    keys:["enganche heavy","desenganche heavy","man lift","alza hombre","portalonero heavy","doble cuerda","anclaje heavy"],
-    response:`**ANG-P-146 — Enganche / Desenganche de Carga General – Heavy Lift**\n\n- Mantener exposición de las manos lejos de las zonas de enganche de la utilería\n- El Portalonero da indicaciones al Operador de Grúa Nave/Tierra, utilizando **canal radial único**\n- Capataz y movilizadores verifican correctamente los puntos de izaje y tomas\n- **En caso de enganche a alturas sobre 1,8 mts:** se utilizará canastillo tipo avión; el arnés debe quedar anclado con línea de vida y **dos colas**\n- Si la carga requiere abordar el H.L.: arnés con doble cuerda de vida anclada, encargado de nave y tierra deben estar presentes` },
-  { id:36, proc:"ANG-P-146", section:"Sec. 21 — Utilería (Heavy Lift)",
-    keys:["utileria","utleria","utilería","estrobo","estribo","eslingas heavy","grillete heavy","tabla izaje","peso utileria"],
-    response:`**ANG-P-146 — Utilería (Heavy Lift)**\n\n- Al desenganche: la maniobra no debe estar torcida ni doblada\n- El estrobo se instala con una faja en el gancho de la grúa para evitar que rebote al desenganche\n- **Se debe tratar que el gancho quede lo más abajo posible** para facilitar la postura\n- Para la manipulación de estrobos rígidos usar guantes anti-golpe\n- **Tabla de pesos de utilería disponible en Anexo 30.11 del procedimiento**` },
-  { id:37, proc:"ANG-P-146", section:"Sec. 22/23 — Transferencia y Descarga en cubierta (Carga General)",
-    keys:["transferencia heavy","descarga cubierta heavy","bulto suspendido","zona segura transferencia","transferencia bodega heavy"],
-    response:`**ANG-P-146 — Transferencia de Carga General / Heavy Lift y Descarga en Cubierta**\n\n- Verificar en el packing list el CG, anclaje y seguros de cada bulto\n- Queda estrictamente prohibido manipular la carga con las manos directamente\n- Encargado de tierra: mantener en la **Safe Zone** hasta que el bulto esté depositado\n- Nunca mover la carga sobre la cabina del camión\n- Movilizador debe usar arnés **sobre 1,80 mts**\n- **Cuadrilla de tierra** verifica enganche del bulto → confirma al portalonero → portalonero da instrucciones al gruero` },
-  { id:38, proc:"ANG-P-146", section:"Sec. 24 — Tándem (Heavy Lift)",
-    keys:["tandem","tándem","doble grua","dos gruas","grua tandem","lider follower"],
-    response:`**ANG-P-146 — Tándem (Heavy Lift)**\n\nEn modalidad TÁNDEM la carga será manipulada por **dos grúas en forma simultánea**.\n\n- La carga máxima admisible por grúa en tándem es del **75% de su capacidad** (≈ 75 ton por grúa)\n- Se deben considerar **2 rigger o portaloneros**, uno en cada bodega y otro en muelle\n- Verificar cadenas, yugos, grilletes y eslingas en buen estado y con certificación al día\n- Los operadores **comunican en el mismo canal de radio** — comunicación constante\n- Uno de los operadores guía como **Leader** y el otro como **Follower**\n- Durante descarga: arriar con misma velocidad manteniendo comunicación constante y verificando desbalanceo` },
-  { id:39, proc:"ANG-P-146", section:"EPP obligatorio — Carga General / Heavy Lift",
-    keys:["epp heavy","epp carga general","proteccion carga general","careta facial","coleto cuero"],
-    response:`**EPP de Uso Obligatorio — ANG-P-146 (Carga General / Heavy Lift)**\n\n- Casco de seguridad\n- Sunflap, protector de nuca o crema con filtro UV\n- Lentes de seguridad oscuros (día) y claros (noche)\n- Guantes de seguridad antigolpe - anticortes\n- Zapatos de seguridad con punta de acero\n- Barbiquejo\n\nAplica a todos los roles: movilizadores, operadores de equipos, portaloneros, tarjadores, capataces, encargados, coordinadores, jefes de área, trabajadores externos y conductores.` },
-  { id:50, proc:"ANG-P-250", section:"Sec. 8 — Inicio operación Embarque Chatarra (DDS / ART)",
-    keys:["chatarra","embarque chatarra","batea","bateas","inicio chatarra"],
-    response:`**ANG-P-250 — Inicio Operación: Embarque de Chatarra**\n\nAntes de iniciar la faena:\n1. Ejecutar **DDS** con todo el personal de turno\n2. Realizar el **ART** — F-SIG-051\n3. Confirmar check list de nave turno a turno (Encargado de Nave)\n4. Verificar postura de protecciones en bitas en caso de corte de espía (paneles)\n5. Encargado de nave y tierra definen **área segura** fuera del radio de las grúas y el flujo de camiones\n6. El armado de maniobra supervisado por el pañolero y el Encargado de Nave` },
-  { id:51, proc:"ANG-P-250", section:"Sec. 14 — Posicionamiento de equipos en muelle (Chatarra)",
-    keys:["posicionamiento equipos chatarra","equipos muelle chatarra","recepcion camiones chatarra","disco pare siga","cuña metalica"],
-    response:`**ANG-P-250 — Posicionamiento de Equipos en Muelle (Chatarra)**\n\n- Se establecen los **puntos de recepción de camiones**, delimitando con conos\n- Respetar límites de velocidad: **25 km/h**\n- Usar conos o barreras duras (New Jersey) para señalizar zona de estacionamiento; debe existir un **disco pare-siga**\n- Personal ubicará **1 letrero de pare y siga** al frente de la cabina + **cuña metálica** en neumático delantero\n- Una vez estacionado: motor detenido, freno de parqueo activado, operador se posiciona en zona segura\n- El Encargado de Tierra indica el circuito de ingreso y salida a operadores tracto camión` },
-  { id:52, proc:"ANG-P-250", section:"Sec. 15 — Posicionamiento de pasarelas / Safety Zone (Chatarra)",
-    keys:["pasarela","pasarelas","plataforma chatarra","freno ruedas","safety zone","no salir safety zone","zona segura chatarra"],
-    response:`**ANG-P-250 — Posicionamiento de Pasarelas / Safety Zone (Chatarra)**\n\n- Para movilización de plataformas: **mínimo 2 movilizadores por lado**, tomando la pasarela de sus puntos de apoyo o asas\n- Una vez posicionada: poner el **freno en las ruedas** de la plataforma\n- Se deberá instalar **"SAFETY ZONE" mediante conos** para que movilizadores se ubiquen previo al izaje\n- La SAFETY ZONE debe estar fuera del radio de trabajo de grúa (Nave/Tierra) y flujo de camiones\n- Solo el encargado de tierra autoriza la salida — debe estar presente el letrero **"OPERACIONES DE IZAJE, NO SALIR DE SAFETY ZONE"**` },
-  { id:53, proc:"ANG-P-250", section:"Sec. 16 — Posicionamiento de argollas y ganchos (Chatarra)",
-    keys:["argollas","ganchos","argollon","calzos","popa batea","proa batea","nivelaís","maniobra batea"],
-    response:`**ANG-P-250 — Posicionamiento de Argollas y Ganchos (Chatarra)**\n\n- Precaución en la instalación de las maniobras — puede existir interacción con la chatarra\n- Uso en todo momento de **guantes anti-golpes/cortes**\n- En caso de no poder instalar maniobras por restos de chatarra: el Encargado de Tierra coordina con Operador de Grúa Horquilla la remoción del material; si persiste → informar al Coordinador → retorno del camión a zona de carguío\n- **Uso de careta facial** para evitar posibles cortes con despuntes\n- **Uso de coleto de cuero** para evitar cortes\n- En la zona de **popa** de la batea: instalar ganchos manuales; en la **proa**: colocar los argollones\n- Durante posicionamiento: movilizadores sostendrán los **niveláis** para guiar correctamente sobre la tolva` },
-  { id:54, proc:"ANG-P-250", section:"Sec. 17 — Transferencia hacia bodega de la nave (Chatarra)",
-    keys:["transferencia bodega chatarra","izaje batea","batea izaje","cables tensar","portalonero autoriza","transferencia chatarra"],
-    response:`**ANG-P-250 — Transferencia hacia Bodega de la Nave (Chatarra)**\n\n⚠️ **El riesgo crítico se presenta al inicio del izaje de la batea** — todas las medidas preventivas deben estar implementadas antes de comenzar.\n\n1. Antes de iniciar: movilizadores retiran las **pasarelas** del costado de la rampla y se posicionan en la **zona segura**\n2. Una vez confirmados en zona segura → el **portalonero autoriza y da instrucción** para comenzar el izaje\n3. El desplazamiento de la batea se realiza por la **parte posterior de la rampla del camión** — evitar paso sobre la cabina del tractocamión\n4. Comenzar el izaje de la batea trasera; continuar con la siguiente rampla\n5. El Operador de Grúa Tierra inicia el tensado de cables **solo cuando los movilizadores estén confirmadamente en la zona segura**\n6. Portalonero guía la transferencia hacia el interior de la bodega hasta la correcta deposición en el fondo` },
-  { id:55, proc:"ANG-P-250", section:"Sec. 18 — Volteo de batea en bodega (Chatarra)",
-    keys:["volteo","voltear","batea volteo","batea descargada","batea bodega vacia"],
-    response:`**ANG-P-250 — Volteo de Batea en Bodega de Nave (Chatarra)**\n\n- El operador de grúa verifica que la batea esté **completamente despejada y sin material residual** antes de continuar\n- Una vez confirmado: el portalonero otorga autorización para el retiro de la batea desde el interior de la bodega hacia el costado del muelle\n- **Si se detecta material o chatarra enganchada:** el portalonero notifica de inmediato al encargado de tierra para coordinar su retiro antes de continuar` },
-  { id:56, proc:"ANG-P-250", section:"Sec. 19/20 — Posicionamiento batea vacía y desenganche (Chatarra)",
-    keys:["batea vacia muelle","desenganche maniobras chatarra","maniobras batea vacia","escaleras cortas","zona segura batea vacia"],
-    response:`**ANG-P-250 — Posicionamiento de Batea Vacía en Muelle y Desenganche**\n\n**Posicionamiento (Sec. 19):**\n- La batea vacía se retira desde el fondo de la bodega bajo guía directa del portalonero\n- Durante el desplazamiento: **ningún movilizador podrá ubicarse bajo el recorrido o área de influencia de la batea**\n- Los movilizadores permanecen en la zona segura hasta recibir la señal "OK" del portalonero\n- Con la batea descargada: el operador de grúa tierra la deposita sobre la **superficie de goma designada** al costado de la nave\n\n**Desenganche (Sec. 20):**\n- Usar siempre **guantes anticorte y anti-golpe**\n- Las maniobras deben mantenerse en posición de descanso o en configuración en "U"\n- El portalonero autoriza el ingreso de los movilizadores para el desenganche\n- Dos movilizadores inician el desenganche desde el sector de **popa** usando **escaleras cortas**\n- Las escaleras solo pueden acercarse cuando la tolva esté correctamente posicionada y **previa autorización del portalonero**` },
-  { id:57, proc:"ANG-P-250", section:"Sec. 21 — Posicionamiento batea vacía sobre tracto camión",
-    keys:["batea sobre tracto","batea tracto camion","grua horquilla batea","calzos soldados","fuga aceite batea"],
-    response:`**ANG-P-250 — Posicionamiento de Batea Vacía sobre Tracto Camión**\n\n⚠️ **Ningún colaborador deberá interactuar en esta actividad.**\n\n- Antes de iniciar: el operador de grúa horquilla realiza el **checklist del equipo**\n- La batea se posiciona sobre los **calzos soldados a la rampla sobredimensionada**\n- El operador permanece atento a posibles **filtraciones de aceite o fluidos hidráulicos**\n- En caso de detectar una fuga: equipo se detiene inmediatamente → aviso al encargado de tierra → protocolo de incidentes\n- El operador confirma que no exista personal en el radio de acción → posiciona las uñas sobre los calzos → traslada y posiciona en la rampla del tracto` },
-  { id:58, proc:"ANG-P-250", section:"EPP obligatorio — Embarque de Chatarra",
-    keys:["epp chatarra","proteccion chatarra","mascarilla filtro","doble filtro"],
-    response:`**EPP de Uso Obligatorio — ANG-P-250 (Embarque de Chatarra)**\n\n- Casco de seguridad\n- Sunflap, protector de nuca o crema con filtro UV\n- Lentes de seguridad oscuros (día) y claros (noche)\n- Guantes de seguridad antigolpe - anticortes\n- Zapatos de seguridad con punta de acero\n- Barbiquejo\n- **Mascarilla de doble filtro** (adicional respecto a otros procedimientos)\n\nEn actividades con riesgo de cortes con chatarra:\n- **Careta facial**\n- **Coleto de cuero**` },
+// ── MENÚ DE ACTIVIDADES ───────────────────────────────────────────────────────
+const MENU_ACTIVIDADES = [
+  { proc:"ANG-P-105", items:[
+    "Inicio de operación (DDS / ART)",
+    "Ingreso al buque / portalón",
+    "Uso de canastillo",
+    "Tránsito en cubierta y paillos",
+    "Movimiento de pontones",
+    "Destrinca y trinca de contenedores",
+    "Apertura y cierre de twistlock / piñas",
+    "Check list grúa tierra y spreader",
+    "Inspección interior de nave",
+    "Descarga de contenedores",
+    "Retiro de twistlock en estación",
+    "Carga / embarque de contenedores",
+    "EPP obligatorio",
+    "Teléfonos de emergencia",
+    "Definiciones / Glosario",
+  ]},
+  { proc:"ANG-P-146", items:[
+    "Inicio operación Heavy Lift (DDS / ART)",
+    "Ingreso al buque / tránsito en nave",
+    "Preparación muelle (Carga General / Heavy Lift)",
+    "Posicionamiento camión porteador",
+    "Destrinca y trinca (Carga General)",
+    "Enganche / Desenganche Heavy Lift",
+    "Utilería (Heavy Lift)",
+    "Transferencia y descarga en cubierta",
+    "Tándem (Heavy Lift)",
+    "EPP obligatorio",
+  ]},
+  { proc:"ANG-P-250", items:[
+    "Inicio operación chatarra (DDS / ART)",
+    "Posicionamiento equipos en muelle",
+    "Posicionamiento pasarelas / Safety Zone",
+    "Posicionamiento argollas y ganchos",
+    "Transferencia hacia bodega de la nave",
+    "Volteo de batea en bodega",
+    "Posicionamiento batea vacía y desenganche",
+    "Posicionamiento batea vacía sobre tracto camión",
+    "EPP obligatorio",
+  ]},
 ];
 
-function getDocById(id) { return DOCS.find(d => d.id === id); }
+// ── BASE DOCUMENTAL ───────────────────────────────────────────────────────────
+const KNOWLEDGE_BASE = `
+=== ANG-P-105: EMBARQUE Y DESCARGA DE CONTENEDORES ===
 
-const FOLLOWUPS = {
-  1:  [{label:"Ingreso al buque / portalón", doc:2},{label:"EPP obligatorio", doc:19},{label:"Check list grúa y spreader", doc:8}],
-  2:  [{label:"Trinca de contenedores", doc:6},{label:"EPP obligatorio", doc:19}],
-  3:  [{label:"Trinca de contenedores", doc:6},{label:"EPP obligatorio", doc:19}],
-  4:  [{label:"Ingreso al buque", doc:2},{label:"EPP obligatorio", doc:19}],
-  5:  [{label:"EPP obligatorio", doc:19},{label:"Ingreso al buque", doc:2}],
-  6:  [{label:"Apertura de twistlocks", doc:7},{label:"EPP para la trinca", doc:19}],
-  7:  [{label:"Trinca de contenedores", doc:6},{label:"EPP necesario", doc:19}],
-  8:  [{label:"Inicio de la operacion", doc:1},{label:"Descarga de contenedores", doc:10}],
-  9:  [{label:"Check list grúa y spreader", doc:8},{label:"EPP obligatorio", doc:19}],
-  10: [{label:"Embarque de contenedores", doc:12},{label:"Inicio de la operacion", doc:1}],
-  11: [{label:"Carga de contenedores", doc:12},{label:"EPP obligatorio", doc:19}],
-  12: [{label:"Descarga de contenedores", doc:10},{label:"Apertura de twistlocks", doc:7}],
-  19: [{label:"Ingreso al buque", doc:2},{label:"Trinca de contenedores", doc:6}],
-  20: [{label:"Inicio de la operacion", doc:1},{label:"EPP obligatorio", doc:19}],
-  21: [{label:"DDS y ART al inicio", doc:1},{label:"EPP obligatorio", doc:19}],
-  30: [{label:"Transferencia y Descarga en cubierta", doc:37},{label:"EPP Heavy Lift", doc:39},{label:"Enganche / Desenganche H.L.", doc:35}],
-  31: [{label:"Inicio Heavy Lift", doc:30},{label:"EPP Heavy Lift", doc:39}],
-  32: [{label:"Inicio Heavy Lift", doc:30},{label:"Posicionamiento camion", doc:33},{label:"Tándem", doc:38}],
-  33: [{label:"Destrinca Carga General", doc:34},{label:"EPP Heavy Lift", doc:39}],
-  34: [{label:"Enganche / Desenganche H.L.", doc:35},{label:"EPP Heavy Lift", doc:39}],
-  35: [{label:"Utilería Heavy Lift", doc:36},{label:"Tándem", doc:38}],
-  36: [{label:"Enganche / Desenganche H.L.", doc:35},{label:"Inicio Heavy Lift", doc:30}],
-  37: [{label:"Tándem", doc:38},{label:"EPP Heavy Lift", doc:39}],
-  38: [{label:"Enganche / Desenganche H.L.", doc:35},{label:"Inicio Heavy Lift", doc:30}],
-  39: [{label:"Inicio Heavy Lift", doc:30},{label:"Transferencia y Descarga", doc:37}],
-  50: [{label:"Posicionamiento equipos muelle", doc:51},{label:"Pasarelas / Safety Zone", doc:52},{label:"EPP Chatarra", doc:58}],
-  51: [{label:"Posicionamiento pasarelas", doc:52},{label:"Transferencia hacia bodega", doc:54}],
-  52: [{label:"Argollas y ganchos", doc:53},{label:"Transferencia hacia bodega", doc:54}],
-  53: [{label:"Transferencia hacia bodega", doc:54},{label:"EPP Chatarra", doc:58}],
-  54: [{label:"Volteo batea en bodega", doc:55},{label:"Pasarelas / Safety Zone", doc:52}],
-  55: [{label:"Batea vacía y desenganche", doc:56},{label:"Inicio Chatarra DDS ART", doc:50}],
-  56: [{label:"Batea vacía sobre tracto camion", doc:57},{label:"EPP Chatarra", doc:58}],
-  57: [{label:"Inicio Chatarra DDS ART", doc:50},{label:"EPP Chatarra", doc:58}],
-  58: [{label:"Inicio Chatarra DDS ART", doc:50},{label:"Argollas y ganchos", doc:53}],
-};
+[7.1 — Inicio de Operación: DDS y ART]
+Antes de comenzar la faena:
+1. Ejecutar el Diálogo Diario de Seguridad (DDS) — a cargo del Coordinador de Operaciones Marítimas
+2. Todos los trabajadores firman el registro DDS, confirmando condiciones físicas y psicológicas aptas
+3. Realizar el Análisis de Riesgo de la Tarea (ART) — formulario F-SIG-051
+4. Verificar check-list de equipos
+5. Asegurar que el área de trabajo esté ordenada y limpia
+Responsable: Coordinador de Operaciones Marítimas o Encargado de Nave/Tierra.
 
-const MULTI_PROC_DOCS = {
-  "inicio_dds": [{doc:1,label:"Contenedores (ANG-P-105)"},{doc:30,label:"Carga Gral / Heavy Lift (ANG-P-146)"},{doc:50,label:"Chatarra (ANG-P-250)"}],
-  "ingreso_nave": [{doc:2,label:"Contenedores (ANG-P-105)"},{doc:31,label:"Carga Gral / Heavy Lift (ANG-P-146)"}],
-  "epp": [{doc:19,label:"Contenedores (ANG-P-105)"},{doc:39,label:"Carga Gral / Heavy Lift (ANG-P-146)"},{doc:58,label:"Chatarra (ANG-P-250)"}],
-  "camion": [{doc:10,label:"Descarga contenedores (ANG-P-105)"},{doc:33,label:"Posicionamiento camion (ANG-P-146)"},{doc:51,label:"Equipos muelle chatarra (ANG-P-250)"}],
-  "maniobra": [{doc:6,label:"Trinca/Destrinca contenedores (ANG-P-105)"},{doc:34,label:"Trinca/Destrinca carga general (ANG-P-146)"}],
-};
+[7.2/7.3 — Ingreso al Buque y Tránsito por Portalón]
+El ingreso puede ser por: Portalón, Jaula o Escalera real con red protectora.
+- Inspeccionar la estructura antes de usarla
+- Mantener mínimo 3 puntos de apoyo
+- El portalón debe tener al menos 5 metros entre su base y el borde del muelle
+- Personal externo requiere autorización del Coordinador de Operaciones Marítimas
+- Usar arnés con doble cabo en escaleras verticales a bodega
+Prohibido: saltar desde escala o desde la banda de la nave al muelle.
 
-const AMBIGUOUS_KEYS = {
-  "inicio_dds": ["inicio","dds","art","dialogo","charla","comenzar","arrancar","iniciar","empezar","turno","secuencia","firma"],
-  "ingreso_nave": ["ingreso","portalon","buque","nave","acceso","subir","bajar","ingresar","acceder"],
-  "epp": ["epp","casco","guantes","arnes","zapatos","lentes","proteccion","barbiquejo","sunflap","obligatorio"],
-  "camion": ["camion","tracto","porteador","estacionar","posicionamiento","conductor"],
-  "maniobra": ["maniobra","trinca","destrinca","trincar","destrincar"],
-};
+[7.4 — Uso de Canastillo]
+- Mantener el canastillo limpio y libre de obstáculos
+- Respetar los límites de peso y cantidad de personas
+- Inspeccionar estructura, grilletes y cables antes de cada uso
+- Arnés obligatorio — enganchar cola de seguridad a la baranda interior
+- Cola de vida no debe quedar colgando
+- El operador de la grúa solo levanta con la señal del supervisor
+- Prohibido saltar o trepar fuera del canastillo
 
-const MENU_ITEMS = [
-  {label:"📦  CONTENEDORES (ANG-P-105)", isHeader:true},
-  {label:"Inicio de operacion (DDS / ART)", doc:1},
-  {label:"Ingreso al buque / portalon", doc:2},
-  {label:"Uso de canastillo", doc:3},
-  {label:"Transito en cubierta y paillos", doc:4},
-  {label:"Movimiento de pontones", doc:5},
-  {label:"Destrinca y trinca de contenedores", doc:6},
-  {label:"Twistlock / piñas", doc:7},
-  {label:"Check list grúa y spreader", doc:8},
-  {label:"Inspeccion interior de nave", doc:9},
-  {label:"Descarga de contenedores", doc:10},
-  {label:"Retiro de twistlocks en estacion", doc:11},
-  {label:"Carga / embarque de contenedores", doc:12},
-  {label:"EPP obligatorio", doc:19},
-  {label:"Telefonos de emergencia", doc:20},
-  {label:"Definiciones / Glosario", doc:21},
-  {label:"🏗️  CARGA GRAL / HEAVY LIFT (ANG-P-146)", isHeader:true},
-  {label:"Inicio operacion Heavy Lift (DDS / ART)", doc:30},
-  {label:"Ingreso buque / Transito en nave", doc:31},
-  {label:"Preparacion muelle (Carga General / Heavy Lift)", doc:32},
-  {label:"Posicionamiento camion porteador", doc:33},
-  {label:"Destrinca y trinca (Carga General)", doc:34},
-  {label:"Enganche / Desenganche Heavy Lift", doc:35},
-  {label:"Utileria (Heavy Lift)", doc:36},
-  {label:"Transferencia y Descarga en cubierta", doc:37},
-  {label:"Tandem (Heavy Lift)", doc:38},
-  {label:"EPP (Carga General / Heavy Lift)", doc:39},
-  {label:"🔩  EMBARQUE DE CHATARRA (ANG-P-250)", isHeader:true},
-  {label:"Inicio operacion Chatarra (DDS / ART)", doc:50},
-  {label:"Posicionamiento equipos en muelle", doc:51},
-  {label:"Posicionamiento pasarelas / Safety Zone", doc:52},
-  {label:"Posicionamiento argollas y ganchos", doc:53},
-  {label:"Transferencia hacia bodega de la nave", doc:54},
-  {label:"Volteo de batea en bodega", doc:55},
-  {label:"Batea vacia: posicionamiento y desenganche", doc:56},
-  {label:"Batea vacia sobre tracto camion", doc:57},
-  {label:"EPP (Embarque de Chatarra)", doc:58},
-];
+[7.5 — Tránsito en Cubierta y Paillos]
+- Transitar por vías despejadas y segregadas
+- Mantener área ordenada y limpia
+- Comunicación permanente vía radio
+- Usar apoya manos — mínimo 3 puntos de apoyo
+- Uso de EPP básico y arnés de seguridad
+- Prohibido usar el celular en zonas operativas
+- Mantener escotillas cerradas
 
-const GENERIC = new Set([
-  "operacion","operaciones","proceso","procedimiento","faena","actividad",
-  "como","que","cual","cuando","donde","quien","hacer","ejecutar","ejecuta",
-  "funciona","funcionar","realiza","realizar","dime","explicame","cuentame",
-  "decir","saber","quiero","necesito","la","el","los","las","del","con",
-  "por","para","una","uno","un","es","son","hay","tiene","pasos","paso",
-  "general","todo","toda","todos","me","se","su","mas","informacion","info",
-  "sobre","acerca","diga","digame",
-]);
+[7.6 — Movimiento de Pontones]
+- Transitar por vías despejadas y segregadas
+- Comunicación permanente vía radio
+- Uso de EPP básico y arnés de seguridad
+- Al conectar/desconectar pontones: no exponerse bajo la carga suspendida
+- Avisar a todo el personal cercano antes de iniciar el movimiento
+- Se permite apilar hasta 3 tapas de alto
 
-function normalize(str) {
-  return str.toLowerCase()
-    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
-    .replace(/[^a-z0-9\s]/g," ")
-    .replace(/\s+/g," ").trim();
-}
+[7.7 — Destrinca y Trinca de Contenedores en Nave]
+Regla fundamental: mantener al menos 3 ROW de distancia de la posición de trabajo de la grúa.
+1. Inspeccionar la nave previamente
+2. Verificar que todas las escotillas estén cerradas antes de iniciar
+3. Trabajar siempre en dupla (2 personas)
+4. Un movilizador sostiene la varilla mientras el otro trinca/destrinca
+5. Una vez separada la varilla: el compañero se aleja al menos 2 filas
+6. Usar guantes anti-golpe en todo momento
+7. Prohibido lanzar varillas o tensores
 
-function findAnswer(query, activeProcFilter) {
-  const q = normalize(query);
-  const offTopic = ["futbol","deporte","partido","politica","musica","pelicula","receta","cocina","viaje","turismo","chiste","broma","quien eres"];
-  for (const w of offTopic) { if (q.includes(w)) return { type:"offscope" }; }
-  const qWords = q.split(" ").filter(w => w.length > 2 && !GENERIC.has(w));
-  if (qWords.length === 0) return { type:"menu" };
+[7.8 — Apertura y Cierre de Twistlock / Piñas]
+Preferencia: abrir desde la cubierta para evitar exponer trabajadores sobre el top de la estiba.
+Si se debe abrir desde el top:
+1. Trasladar trabajadores en canastillo hasta el centro de la estiba
+2. Conectar arnés al sistema bastón
+3. Avanzar desde el centro al extremo — bastón a mínimo 1 metro del borde
+4. Proceder a apertura de twistlocks desde el borde
+Twistlock trabado: usar martillo pico pato.
+Prohibido: destrabar una piña con otra piña.
 
-  let docsToSearch = activeProcFilter ? DOCS.filter(d => d.proc === activeProcFilter) : DOCS;
-  let scored = docsToSearch.map(doc => {
-    let score = 0;
-    for (const qw of qWords) for (const kw of doc.keys) { if (kw.includes(qw)||qw.includes(kw)) score++; }
-    return { doc, score };
-  }).sort((a,b) => b.score - a.score);
+[7.9/7.10 — Check List Grúa Tierra y Protocolo de Entrega de Spreader]
+- El operador realiza revisión mediante check list antes del turno
+- Operadores deben portar licencia de conducir y carnet portuario
+- Alarmas: reportar al Encargado de Nave → asistencia presencial de Mantención PANG (no vía teléfono)
+- Spreader: check list previo al turno, ejecutado por personal Ultraport junto con Mantención Puerto Angamos.
 
-  if (scored[0]?.score >= 1) return { type:"found", doc:scored[0].doc };
+[7.11 — Inspección Condiciones al Interior de la Nave]
+- Comunicación permanente vía radio
+- Revisión de equipos, herramientas y accesorios de elevación
+- Mantener área limpia y ordenada
+- Uso de EPP básico y arnés de seguridad
+- Solicitar a la tripulación instalar líneas de vida o running en bodegas abiertas
+- Verificar iluminación adecuada en todas las áreas
 
-  if (activeProcFilter) {
-    scored = DOCS.map(doc => {
-      let score = 0;
-      for (const qw of qWords) for (const kw of doc.keys) { if (kw.includes(qw)||qw.includes(kw)) score++; }
-      return { doc, score };
-    }).sort((a,b) => b.score - a.score);
-    if (scored[0]?.score >= 1) return { type:"found", doc:scored[0].doc };
-  }
+[7.12/7.13 — Descarga de Contenedores]
+- El área de posicionamiento debe estar segregada y conificada con baliza
+- Coordinador elabora circuito de ingreso de camiones
+- Velocidad máxima en muelle: 25 km/h con luces encendidas
+- Al estacionar, conductor aplica freno, apaga equipo y espera en la safety zone
+- Contenedores de alto tonelaje: velocidad máxima en traslado 10 km/h; en radio de giro 5 km/h
+- Prohibido: exponerse a cargas suspendidas.
 
-  for (const [key, words] of Object.entries(AMBIGUOUS_KEYS)) {
-    const hasMatch = qWords.some(qw => words.some(w => w.includes(qw)||qw.includes(w)));
-    if (hasMatch && MULTI_PROC_DOCS[key]) return { type:"ambiguous", key, options: MULTI_PROC_DOCS[key] };
-  }
+[7.14 — Retiro de Twistlock en Estación]
+- El Coordinador indica la zona donde se instalará la estación de retiro
+- La zona debe estar segregada antes del inicio
+- Prohibido lanzar los twistlock
+- Usar guantes anti-golpe para el retiro
+- Totalmente prohibido destrabar una piña con otra piña
 
-  return { type:"notfound" };
-}
+[7.15 — Carga / Embarque de Contenedores]
+- Área de posicionamiento segregada con barreras duras o New Jersey y señal pare/siga
+- Camión debe quedar en línea (sin articulación)
+- Velocidad máxima: 25 km/h con luces encendidas
+Proceso en estación de piñas:
+1. Movilizador coloca señal PARE/SIGA al frente de la cabina
+2. Segundo movilizador instala cuña móvil en rueda de tracción
+3. Movilizadores instalan twistlocks y el tarjador documenta la unidad
+4. Verificar que cada piña quede bien calzada
+5. Retirar cuña y señal PARE/SIGA solo cuando todos estén fuera del área
+
+[EPP de Uso Obligatorio — ANG-P-105 (Contenedores)]
+- Casco de seguridad
+- Lentes de seguridad oscuros (día) y claros (noche)
+- Guantes anti-golpe / anti-corte
+- Zapatos de seguridad con punta de acero
+- Barbiquejo
+- Arnés de seguridad con dos cabos de vida en "Y" de acero
+- Sunflap o protector de nuca / crema con filtro UV
+Arnés obligatorio en: trabajos sobre 1,8 m, acceso a escalas de cubierta, trinca/destrinca, apertura de twistlocks en top de estiba.
+
+[Teléfonos de Emergencia — Ultraport Angamos]
+- HSE Ultraport Angamos (turno): 9 1953 1990
+- HSEQ Puerto Angamos (Tatiana Lobos): 9 5333 1673
+- IST Puerto Angamos Ambulancia 1: 9 6468 4816
+- IST Puerto Angamos Ambulancia 2: 9 5396 5350
+- Capitanía de Puerto Mejillones: 055-(2) 621513
+- Bomberos Mejillones: 55-(2) 621591
+- Hospital Mejillones: 55-(2) 621575
+- Mutual de Seguridad Mejillones: 9 6652 0333
+- IST Antofagasta: 055-(2) 222559
+
+[Definiciones y Glosario]
+- Portalón: Pasarela de fierro con piso de madera que se engancha al buque para subir/bajar de la cubierta
+- Spreader: Herramienta colocada entre la grúa y el contenedor para engancharlo, levantarlo y bajarlo de forma segura
+- Accidente: Evento no planificado que causa lesiones a personas o daños a equipos o instalaciones
+- Incidente: Evento que no causó daños pero que pudo haberlos causado
+- Derrame: Caída o escape no controlado de líquidos o materiales
+- RESPEL: Residuo Peligroso
+- EPP: Equipo de Protección Personal
+- Batea: Contenedor tipo tolva utilizado en embarque de chatarra
+- Safety Zone: Zona segura delimitada fuera del radio de acción de la grúa
+
+
+=== ANG-P-146: CARGA Y DESCARGA DE CARGA GENERAL / HEAVY LIFT ===
+
+[Sec. 8-9 — Inicio Operación Heavy Lift (DDS / ART / Pre-operativa)]
+Antes de iniciar la faena el Coordinador Marítimo debe:
+1. Ejecutar DDS y ART con todo el personal de turno
+2. Revisar Planos de Embarque/Descarga, Packing List y diagramas de gravedad del Heavy Lift
+3. Para H.L.: compartir diagramas de izaje, centro de gravedad y utilería con los encargados
+4. Confirmar check list de nave — señalizar mediante letreros "PELIGRO CARGA SUSPENDIDA"
+5. Definir circuito de ingreso de camiones y área de acopio
+Documentación requerida del cliente (24 hrs antes del arribo): forma de enganche, peso, CG, cuidados especiales, puntos de izaje, instrucciones de nave y tierra.
+
+[Sec. 12/13 — Ingreso al Buque / Tránsito en Nave (Carga General)]
+- El ingreso a nave se debe realizar bajo lo establecido en ANG-I-023
+- Transitar por vías despejadas y segregadas
+- Mantener área limpia; comunicación permanente vía radio
+- Uso de EPP y arnés sobre 1,8 m
+- Prohibición de fumar en sectores de faena
+- El Encargado de Nave identifica zonas de caída y habilita protecciones
+- Prohibido transitar en lugares no habilitados
+
+[Sec. 16 — Preparación Muelle Carga General / Heavy Lift]
+El Coordinador Marítimo informa al grupo de encargados:
+- Tipo de nave, tipo de carga y maquinaria a utilizar
+- Se deben definir y señalizar con conos las áreas: zona de acopio, zona de destrinca y zona segura
+- No exponerse extremidades ni cuerpo bajo carga suspendida
+- Señalizar la ubicación en donde se detendrá el camión más el letrero de "Pare y Siga"
+- Velocidad máxima en radio de giro: 7 km/h para tracto camiones
+
+[Sec. 17 — Posicionamiento Camión Porteador (Carga General)]
+- El camión se posiciona hacia los costados del sitio de trabajo (de aeropuerto)
+- Una vez estacionado: motor detenido, freno de parqueo activado, conductor desciende y se posiciona en zona segura
+- Personal Ultraport ubicará 1 letrero de pare y siga al frente de la cabina más cuña metálica en neumático delantero
+- Velocidad máxima en radio de giro tracto camión: 7 km/h
+
+[Sec. 18/19 — Destrinca y Trinca (Carga General / Bodega)]
+La destrinca se realiza en bodega — el capataz de bodega supervisa constantemente orden, iluminación y condiciones.
+- Encargado de nave evalúa riesgos y aplica check list antes de comenzar
+- Cables y cadenas deben ser ordenados en el lugar designado, evitando que puedan enredarse
+- La destrinca se realiza siempre a mínimo 2 movilizadores
+- En caso de trabajo en altura (2 niveles o más): usar arnés y protocolos de altura
+- Todo trabajador que suba al canastillo debe usar arnés con cuerda de vida anclado
+
+[Sec. 20 — Enganche / Desenganche Heavy Lift]
+- Mantener exposición de las manos lejos de las zonas de enganche de la utilería
+- El Portalonero da indicaciones al Operador de Grúa Nave/Tierra, utilizando canal radial único
+- Capataz y movilizadores verifican correctamente los puntos de izaje y tomas
+- En caso de enganche a alturas sobre 1,8 mts: se utilizará canastillo tipo avión; el arnés debe quedar anclado con línea de vida y dos colas
+- Si la carga requiere abordar el H.L.: arnés con doble cuerda de vida anclada, encargado de nave y tierra deben estar presentes
+
+[Sec. 21 — Utilería (Heavy Lift)]
+- Al desenganche: la maniobra no debe estar torcida ni doblada
+- El estrobo se instala con una faja en el gancho de la grúa para evitar que rebote al desenganche
+- Se debe tratar que el gancho quede lo más abajo posible para facilitar la postura
+- Para la manipulación de estrobos rígidos usar guantes anti-golpe
+- Tabla de pesos de utilería disponible en Anexo 30.11 del procedimiento
+
+[Sec. 22/23 — Transferencia y Descarga en Cubierta (Carga General)]
+- Verificar en el packing list el CG, anclaje y seguros de cada bulto
+- Queda estrictamente prohibido manipular la carga con las manos directamente
+- Encargado de tierra: mantener en la Safe Zone hasta que el bulto esté depositado
+- Nunca mover la carga sobre la cabina del camión
+- Movilizador debe usar arnés sobre 1,80 mts
+- Cuadrilla de tierra verifica enganche del bulto → confirma al portalonero → portalonero da instrucciones al gruero
+
+[Sec. 24 — Tándem (Heavy Lift)]
+En modalidad TÁNDEM la carga será manipulada por dos grúas en forma simultánea.
+- La carga máxima admisible por grúa en tándem es del 75% de su capacidad (≈ 75 ton por grúa)
+- Se deben considerar 2 rigger o portaloneros, uno en cada bodega y otro en muelle
+- Verificar cadenas, yugos, grilletes y eslingas en buen estado y con certificación al día
+- Los operadores comunican en el mismo canal de radio — comunicación constante
+- Uno de los operadores guía como Leader y el otro como Follower
+- Durante descarga: arriar con misma velocidad manteniendo comunicación constante y verificando desbalanceo
+
+[EPP de Uso Obligatorio — ANG-P-146 (Carga General / Heavy Lift)]
+- Casco de seguridad
+- Sunflap, protector de nuca o crema con filtro UV
+- Lentes de seguridad oscuros (día) y claros (noche)
+- Guantes de seguridad antigolpe - anticortes
+- Zapatos de seguridad con punta de acero
+- Barbiquejo
+Aplica a todos los roles: movilizadores, operadores de equipos, portaloneros, tarjadores, capataces, encargados, coordinadores, jefes de área, trabajadores externos y conductores.
+
+
+=== ANG-P-250: EMBARQUE DE CHATARRA ===
+
+[Sec. 8 — Inicio Operación: Embarque de Chatarra (DDS / ART)]
+Antes de iniciar la faena:
+1. Ejecutar DDS con todo el personal de turno
+2. Realizar el ART — F-SIG-051
+3. Confirmar check list de nave turno a turno (Encargado de Nave)
+4. Verificar postura de protecciones en bitas en caso de corte de espía (paneles)
+5. Encargado de nave y tierra definen área segura fuera del radio de las grúas y el flujo de camiones
+6. El armado de maniobra supervisado por el pañolero y el Encargado de Nave
+
+[Sec. 14 — Posicionamiento de Equipos en Muelle (Chatarra)]
+- Se establecen los puntos de recepción de camiones, delimitando con conos
+- Respetar límites de velocidad: 25 km/h
+- Usar conos o barreras duras (New Jersey) para señalizar zona de estacionamiento; debe existir un disco pare-siga
+- Personal ubicará 1 letrero de pare y siga al frente de la cabina + cuña metálica en neumático delantero
+- Una vez estacionado: motor detenido, freno de parqueo activado, operador se posiciona en zona segura
+- El Encargado de Tierra indica el circuito de ingreso y salida a operadores tracto camión
+
+[Sec. 15 — Posicionamiento de Pasarelas / Safety Zone (Chatarra)]
+- Para movilización de plataformas: mínimo 2 movilizadores por lado, tomando la pasarela de sus puntos de apoyo o asas
+- Una vez posicionada: poner el freno en las ruedas de la plataforma
+- Se deberá instalar "SAFETY ZONE" mediante conos para que movilizadores se ubiquen previo al izaje
+- La SAFETY ZONE debe estar fuera del radio de trabajo de grúa (Nave/Tierra) y flujo de camiones
+- Solo el encargado de tierra autoriza la salida — debe estar presente el letrero "OPERACIONES DE IZAJE, NO SALIR DE SAFETY ZONE"
+
+[Sec. 16 — Posicionamiento de Argollas y Ganchos (Chatarra)]
+- Precaución en la instalación de las maniobras — puede existir interacción con la chatarra
+- Uso en todo momento de guantes anti-golpes/cortes
+- En caso de no poder instalar maniobras por restos de chatarra: el Encargado de Tierra coordina con Operador de Grúa Horquilla la remoción del material
+- Uso de careta facial para evitar posibles cortes con despuntes
+- Uso de coleto de cuero para evitar cortes
+- En la zona de popa de la batea: instalar ganchos manuales; en la proa: colocar los argollones
+- Durante posicionamiento: movilizadores sostendrán los niveláis para guiar correctamente sobre la tolva
+
+[Sec. 17 — Transferencia hacia Bodega de la Nave (Chatarra)]
+ADVERTENCIA: El riesgo crítico se presenta al inicio del izaje de la batea — todas las medidas preventivas deben estar implementadas antes de comenzar.
+1. Antes de iniciar: movilizadores retiran las pasarelas del costado de la rampla y se posicionan en la zona segura
+2. Una vez confirmados en zona segura → el portalonero autoriza y da instrucción para comenzar el izaje
+3. El desplazamiento de la batea se realiza por la parte posterior de la rampla del camión — evitar paso sobre la cabina del tractocamión
+4. Comenzar el izaje de la batea trasera; continuar con la siguiente rampla
+5. El Operador de Grúa Tierra inicia el tensado de cables solo cuando los movilizadores estén confirmadamente en la zona segura
+6. Portalonero guía la transferencia hacia el interior de la bodega hasta la correcta deposición en el fondo
+
+[Sec. 18 — Volteo de Batea en Bodega (Chatarra)]
+- El operador de grúa verifica que la batea esté completamente despejada y sin material residual antes de continuar
+- Una vez confirmado: el portalonero otorga autorización para el retiro de la batea desde el interior de la bodega hacia el costado del muelle
+- Si se detecta material o chatarra enganchada: el portalonero notifica de inmediato al encargado de tierra para coordinar su retiro antes de continuar
+
+[Sec. 19/20 — Posicionamiento Batea Vacía en Muelle y Desenganche (Chatarra)]
+Posicionamiento (Sec. 19):
+- La batea vacía se retira desde el fondo de la bodega bajo guía directa del portalonero
+- Durante el desplazamiento: ningún movilizador podrá ubicarse bajo el recorrido o área de influencia de la batea
+- Los movilizadores permanecen en la zona segura hasta recibir la señal "OK" del portalonero
+- Con la batea descargada: el operador de grúa tierra la deposita sobre la superficie de goma designada al costado de la nave
+Desenganche (Sec. 20):
+- Usar siempre guantes anticorte y anti-golpe
+- Las maniobras deben mantenerse en posición de descanso o en configuración en "U"
+- El portalonero autoriza el ingreso de los movilizadores para el desenganche
+- Dos movilizadores inician el desenganche desde el sector de popa usando escaleras cortas
+- Las escaleras solo pueden acercarse cuando la tolva esté correctamente posicionada y previa autorización del portalonero
+
+[Sec. 21 — Posicionamiento de Batea Vacía sobre Tracto Camión (Chatarra)]
+ADVERTENCIA: Ningún colaborador deberá interactuar en esta actividad.
+- Antes de iniciar: el operador de grúa horquilla realiza el checklist del equipo
+- La batea se posiciona sobre los calzos soldados a la rampla sobredimensionada
+- El operador permanece atento a posibles filtraciones de aceite o fluidos hidráulicos
+- En caso de detectar una fuga: equipo se detiene inmediatamente → aviso al encargado de tierra → protocolo de incidentes
+- El operador confirma que no exista personal en el radio de acción → posiciona las uñas sobre los calzos → traslada y posiciona en la rampla del tracto
+
+[EPP de Uso Obligatorio — ANG-P-250 (Embarque de Chatarra)]
+- Casco de seguridad
+- Sunflap, protector de nuca o crema con filtro UV
+- Lentes de seguridad oscuros (día) y claros (noche)
+- Guantes de seguridad antigolpe - anticortes
+- Zapatos de seguridad con punta de acero
+- Barbiquejo
+- Mascarilla de doble filtro (adicional respecto a otros procedimientos)
+En actividades con riesgo de cortes con chatarra:
+- Careta facial
+- Coleto de cuero
+`;
+
+const SYSTEM_PROMPT = `Eres ULTR-AI, el asistente operativo oficial de Ultraport Angamos, puerto multipropósito en Antofagasta, Chile.
+
+Tu única fuente de información son los tres procedimientos oficiales que se incluyen abajo. NUNCA inventes datos.
+
+BASE DOCUMENTAL:
+${KNOWLEDGE_BASE}
+
+REGLAS DE RESPUESTA:
+1. Responde siempre en español.
+2. Formato: usa **negritas** para términos clave, listas numeradas para pasos secuenciales, guiones para requisitos.
+3. NO uses encabezados Markdown (# ## ###). Estructura el texto con negritas y saltos de línea.
+4. BREVEDAD: Si te preguntan por una actividad a grandes rasgos, responde en 3-5 puntos clave. Solo entra en detalle si el usuario lo pide explícitamente (ej: "explícame en detalle", "cuáles son todos los pasos").
+5. Identifica siempre el procedimiento: empieza indicando si es ANG-P-105, ANG-P-146 o ANG-P-250.
+6. Si la pregunta abarca varios procedimientos, indícalo y responde cada uno brevemente.
+7. Fuera del ámbito operativo: responde "Esta consulta está fuera del ámbito operativo de Ultraport."
+8. Si no está en los documentos: responde "No encontré esto en la documentación oficial. Consulta al Supervisor de Turno."
+9. Al final de cada respuesta, incluye una línea así (sin Markdown, solo texto plano separado):
+FOLLOWUP:opción 1|opción 2|opción 3
+Elige 2-3 preguntas de seguimiento cortas y relevantes al tema que acabas de responder. Estas serán mostradas como botones al usuario.`;
+
+// ── COMPONENTES UI ────────────────────────────────────────────────────────────
 
 function TypingDots() {
   return (
@@ -270,11 +397,31 @@ function TypingDots() {
   );
 }
 
-function fmt(text) {
-  return text.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>").replace(/\*(.*?)\*/g,"<em>$1</em>");
+function renderMarkdown(text) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*(.*?)\*/g, "<em>$1</em>")
+    .replace(/^(\d+\.) /gm, "<br/><strong>$1</strong> ")
+    .replace(/^- /gm, "<br/>• ")
+    .replace(/\n\n/g, "<br/><br/>")
+    .replace(/\n/g, "<br/>");
 }
 
-// Logo SVG Ultraport (ola blanca sobre celeste)
+// Extrae followups de la respuesta y devuelve { clean, followups }
+function parseResponse(text) {
+  const match = text.match(/FOLLOWUP:(.+)$/m);
+  if (!match) return { clean: text.trim(), followups: [] };
+  const followups = match[1].split("|").map(s => s.trim()).filter(Boolean);
+  const clean = text.replace(/FOLLOWUP:.+$/m, "").trim();
+  return { clean, followups };
+}
+
+// Detecta procedimiento(s) mencionados en el texto
+function detectProc(text) {
+  const procs = ["ANG-P-105","ANG-P-146","ANG-P-250"].filter(p => text.includes(p));
+  return procs.length > 0 ? procs[0] : null; // badge del primero mencionado
+}
+
 const LogoUltraport = () => (
   <svg viewBox="0 0 100 100" width="38" height="38" xmlns="http://www.w3.org/2000/svg">
     <rect width="100" height="100" rx="10" fill="#3AAEDC"/>
@@ -282,17 +429,10 @@ const LogoUltraport = () => (
   </svg>
 );
 
-function Message({ msg, onDocAction }) {
+function Message({ msg, onFollowup }) {
   const isUser = msg.role === "user";
-  const bg = isUser ? null
-    : msg.type==="offscope"||msg.type==="notfound" ? "#FFF3F5"
-    : msg.type==="menu"||msg.type==="ambiguous" ? "#F0F7FF"
-    : BRAND.white;
-  const border = isUser ? null
-    : msg.type==="offscope"||msg.type==="notfound" ? "#FFCCD4"
-    : msg.type==="menu"||msg.type==="ambiguous" ? "#B3D4F5"
-    : BRAND.gray300;
-  const procColor = msg.proc ? (PROC_COLOR[msg.proc]||BRAND.red) : BRAND.red;
+  const isError = !isUser && msg.type === "error";
+  const proc = msg.proc || null;
 
   return (
     <div style={{display:"flex",justifyContent:isUser?"flex-end":"flex-start",marginBottom:12,alignItems:"flex-end",gap:8}}>
@@ -304,119 +444,159 @@ function Message({ msg, onDocAction }) {
           </svg>
         </div>
       )}
-      <div style={{maxWidth:"78%",borderRadius:isUser?"18px 18px 4px 18px":"18px 18px 18px 4px",padding:"10px 14px",background:isUser?`linear-gradient(135deg,${BRAND.red},${BRAND.redHover})`:bg,color:isUser?BRAND.white:BRAND.gray700,fontSize:14,lineHeight:1.55,boxShadow:isUser?`0 2px 8px rgba(200,16,46,.25)`:`0 2px 8px rgba(10,31,59,.08)`,border:!isUser?`1px solid ${border}`:"none"}}>
-        {msg.type==="found" && msg.proc && (
-          <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:6}}>
-            <div style={{background:procColor,color:"white",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:20,letterSpacing:".06em"}}>
-              {PROC_EMOJI[msg.proc]} {msg.proc} · {PROC_LABEL[msg.proc]}
+      <div style={{maxWidth:"78%",display:"flex",flexDirection:"column",gap:6,alignItems:isUser?"flex-end":"flex-start"}}>
+        <div style={{
+          borderRadius:isUser?"18px 18px 4px 18px":"18px 18px 18px 4px",
+          padding:"10px 14px",
+          background:isUser?`linear-gradient(135deg,${BRAND.red},${BRAND.redHover})`:isError?"#FFF3F5":BRAND.white,
+          color:isUser?BRAND.white:BRAND.gray700,
+          fontSize:14,lineHeight:1.55,
+          boxShadow:isUser?`0 2px 8px rgba(200,16,46,.25)`:`0 2px 8px rgba(10,31,59,.08)`,
+          border:!isUser?`1px solid ${isError?"#FFCCD4":BRAND.gray300}`:"none"
+        }}>
+          {/* Badge procedimiento */}
+          {proc && !isUser && (
+            <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:8}}>
+              <div style={{background:PROC_COLOR[proc],color:"white",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:20,letterSpacing:".06em"}}>
+                {PROC_EMOJI[proc]} {proc} — {PROC_LABEL[proc]}
+              </div>
             </div>
-          </div>
-        )}
-        {msg.type==="found" && msg.section && (
-          <div style={{fontSize:11,color:BRAND.gray500,marginBottom:6,fontStyle:"italic"}}>{msg.section}</div>
-        )}
-        {(msg.type==="menu"||msg.type==="ambiguous") && (
-          <div style={{fontSize:10,fontWeight:600,textTransform:"uppercase",letterSpacing:".08em",color:"#1A6FB0",marginBottom:6,display:"flex",alignItems:"center",gap:4}}>
-            <span>📋</span><span>{msg.type==="ambiguous"?"¿Para qué operación?":"Selecciona un tema"}</span>
-          </div>
-        )}
-        <div style={{whiteSpace:"pre-line"}} dangerouslySetInnerHTML={{__html:fmt(msg.content)}}/>
-        {msg.type==="ambiguous" && msg.options && (
-          <div style={{marginTop:10,display:"flex",flexDirection:"column",gap:5}}>
-            {msg.options.map((opt,i)=>(
-              <button key={i} onClick={()=>onDocAction(opt.doc)}
-                style={{display:"flex",alignItems:"center",gap:8,background:BRAND.white,border:`1.5px solid #B3D4F5`,borderRadius:10,padding:"8px 12px",fontSize:13,fontWeight:600,color:BRAND.navy,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
-                <span style={{color:BRAND.red,fontSize:16,lineHeight:1}}>›</span>{opt.label}
-              </button>
-            ))}
-          </div>
-        )}
-        {msg.type==="menu" && msg.menuItems && (
-          <div style={{marginTop:10,display:"flex",flexDirection:"column",gap:4}}>
-            {msg.menuItems.map((item,i) => item.isHeader ? (
-              <div key={i} style={{fontSize:10,fontWeight:700,textTransform:"uppercase",letterSpacing:".08em",color:BRAND.gray500,marginTop:8,marginBottom:2,paddingLeft:4}}>{item.label}</div>
-            ) : (
-              <button key={i} onClick={()=>onDocAction(item.doc)}
-                style={{display:"flex",alignItems:"center",gap:6,background:BRAND.white,border:`1.5px solid #B3D4F5`,borderRadius:8,padding:"6px 10px",fontSize:12,fontWeight:500,color:BRAND.navy,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
-                <span style={{color:BRAND.red,fontWeight:700}}>›</span>{item.label}
-              </button>
-            ))}
-          </div>
-        )}
-        {msg.type==="found" && msg.followups && msg.followups.length > 0 && (
-          <div style={{marginTop:12,borderTop:`1px solid ${BRAND.gray300}`,paddingTop:10}}>
-            <div style={{fontSize:10,color:BRAND.gray500,fontWeight:600,textTransform:"uppercase",letterSpacing:".07em",marginBottom:6}}>Consultas relacionadas</div>
-            <div style={{display:"flex",flexDirection:"column",gap:5}}>
-              {msg.followups.map((fq,i)=>(
-                <button key={i} onClick={()=>onDocAction(fq.doc)}
+          )}
+          <div style={{whiteSpace:"pre-line"}} dangerouslySetInnerHTML={{__html: isUser ? msg.content : renderMarkdown(msg.content)}}/>
+        </div>
+
+        {/* Botones de seguimiento */}
+        {!isUser && msg.followups && msg.followups.length > 0 && (
+          <div style={{width:"100%"}}>
+            <div style={{fontSize:10,color:BRAND.gray500,fontWeight:600,textTransform:"uppercase",letterSpacing:".07em",marginBottom:5}}>Consultas relacionadas</div>
+            <div style={{display:"flex",flexDirection:"column",gap:4}}>
+              {msg.followups.map((fq, i) => (
+                <button key={i} onClick={() => onFollowup(fq)}
                   style={{background:BRAND.gray100,border:`1px solid ${BRAND.gray300}`,borderRadius:8,padding:"7px 10px",fontSize:12,color:BRAND.navy,cursor:"pointer",fontFamily:"inherit",textAlign:"left",display:"flex",alignItems:"center",gap:6}}
                   onMouseEnter={e=>{e.currentTarget.style.borderColor=BRAND.red;e.currentTarget.style.background="#FFF5F7";}}
                   onMouseLeave={e=>{e.currentTarget.style.borderColor=BRAND.gray300;e.currentTarget.style.background=BRAND.gray100;}}>
-                  <span style={{color:BRAND.red,fontSize:14}}>›</span>{fq.label}
+                  <span style={{color:BRAND.red,fontSize:14,fontWeight:700}}>›</span>{fq}
                 </button>
               ))}
             </div>
           </div>
         )}
-        {msg.type==="offscope" && <div style={{marginTop:8,fontSize:11,color:BRAND.red,fontStyle:"italic"}}>Solo respondo consultas operativas de Ultraport.</div>}
+      </div>
+    </div>
+  );
+}
+
+// ── PANEL DE MENÚ ─────────────────────────────────────────────────────────────
+function MenuPanel({ onSelect, onClose }) {
+  return (
+    <div style={{position:"absolute",top:0,left:0,right:0,bottom:0,background:BRAND.gray100,zIndex:10,display:"flex",flexDirection:"column",borderRadius:24,overflow:"hidden"}}>
+      <div style={{background:`linear-gradient(135deg,${BRAND.navy},${BRAND.navyLight})`,padding:"14px 16px 12px",display:"flex",alignItems:"center",gap:10,borderBottom:`3px solid ${BRAND.red}`}}>
+        <button onClick={onClose} style={{background:"none",border:"none",cursor:"pointer",color:"white",fontSize:18,lineHeight:1,padding:"0 4px"}}>←</button>
+        <div style={{color:"#FFFFFF",fontWeight:700,fontSize:15}}>Índice de Procedimientos</div>
+      </div>
+      <div style={{flex:1,overflowY:"auto",padding:"12px"}}>
+        {MENU_ACTIVIDADES.map(({proc, items}) => (
+          <div key={proc} style={{marginBottom:16}}>
+            <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:8,padding:"6px 10px",background:PROC_COLOR[proc],borderRadius:10}}>
+              <span style={{fontSize:14}}>{PROC_EMOJI[proc]}</span>
+              <span style={{color:"white",fontWeight:700,fontSize:11,letterSpacing:".04em"}}>{proc} — {PROC_LABEL[proc]}</span>
+            </div>
+            {items.map((item, i) => (
+              <button key={i} onClick={() => { onSelect(`Explícame: ${item} (${proc})`); onClose(); }}
+                style={{display:"flex",alignItems:"center",gap:6,width:"100%",background:BRAND.white,border:`1px solid ${BRAND.gray300}`,borderRadius:8,padding:"8px 10px",fontSize:12,color:BRAND.gray700,cursor:"pointer",fontFamily:"inherit",textAlign:"left",marginBottom:4}}
+                onMouseEnter={e=>{e.currentTarget.style.borderColor=BRAND.red;e.currentTarget.style.background="#FFF5F7";}}
+                onMouseLeave={e=>{e.currentTarget.style.borderColor=BRAND.gray300;e.currentTarget.style.background=BRAND.white;}}>
+                <span style={{color:PROC_COLOR[proc],fontWeight:700,fontSize:13}}>›</span>{item}
+              </button>
+            ))}
+          </div>
+        ))}
       </div>
     </div>
   );
 }
 
 const SUGGESTED = [
-  "Como inicio la operacion de embarque de chatarra?",
-  "Que EPP necesito para heavy lift?",
-  "Como se realiza el izaje de una batea?",
+  "¿Cómo inicio la operación de embarque de chatarra?",
+  "¿Qué EPP necesito para heavy lift?",
+  "¿Cuáles son los pasos antes de comenzar una faena?",
 ];
 
+// ── APP PRINCIPAL ─────────────────────────────────────────────────────────────
 export default function UltrAI() {
-  const [messages, setMessages] = useState([{id:0,role:"assistant",type:"welcome",content:"Hola. Soy **ULTR-AI**, asistente operativo de Ultraport Angamos.\n\nConsultame sobre los procedimientos:\n• **ANG-P-105** — Embarque y Descarga de Contenedores\n• **ANG-P-146** — Carga y Descarga de Carga General / Heavy Lift\n• **ANG-P-250** — Embarque de Chatarra\n\nRespondo solo con informacion de la base documental oficial."}]);
+  const [messages, setMessages] = useState([
+    { id:0, role:"assistant", type:"welcome",
+      content:"Hola. Soy **ULTR-AI**, asistente operativo de Ultraport Angamos.\n\nPuedes consultarme sobre cualquier actividad, procedimiento de seguridad, EPP, emergencias u operaciones del puerto. Respondo solo con información de la documentación oficial.\n\nUsa el menú 📋 para explorar todas las actividades disponibles, o escribe tu consulta directamente." }
+  ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [activeProcFilter, setActiveProcFilter] = useState(null);
+  const [showMenu, setShowMenu] = useState(false);
   const bottomRef = useRef(null);
-  useEffect(()=>{ bottomRef.current?.scrollIntoView({behavior:"smooth"}); },[messages,loading]);
 
-  const showDoc = (docId) => {
-    const doc = getDocById(docId);
-    if (!doc) return;
-    setActiveProcFilter(doc.proc);
-    setMessages(prev=>[...prev,{id:Date.now(),role:"assistant",type:"found",proc:doc.proc,section:doc.section,content:doc.response,followups:FOLLOWUPS[doc.id]||[]}]);
-  };
+  useEffect(() => { bottomRef.current?.scrollIntoView({behavior:"smooth"}); }, [messages, loading]);
 
   const sendMessage = async (text) => {
-    const query = (text||input).trim();
-    if (!query||loading) return;
+    const query = (text || input).trim();
+    if (!query || loading) return;
     setInput("");
-    setMessages(prev=>[...prev,{id:Date.now(),role:"user",type:"user",content:query}]);
+
+    const userMsg = { id: Date.now(), role:"user", type:"user", content: query };
+    setMessages(prev => [...prev, userMsg]);
     setLoading(true);
-    await new Promise(r=>setTimeout(r,600+Math.random()*400));
-    const result = findAnswer(query, activeProcFilter);
-    let botMsg;
-    if (result.type==="menu") {
-      botMsg = {id:Date.now()+1,role:"assistant",type:"menu",content:"Tu consulta es muy general. ¿Sobre qué parte del procedimiento necesitas información?",menuItems:MENU_ITEMS};
-    } else if (result.type==="found") {
-      setActiveProcFilter(result.doc.proc);
-      botMsg = {id:Date.now()+1,role:"assistant",type:"found",proc:result.doc.proc,section:result.doc.section,content:result.doc.response,followups:FOLLOWUPS[result.doc.id]||[]};
-    } else if (result.type==="ambiguous") {
-      botMsg = {id:Date.now()+1,role:"assistant",type:"ambiguous",content:"Esta consulta aplica a más de un procedimiento. ¿Para cuál operación necesitas la información?",options:result.options};
-    } else if (result.type==="offscope") {
-      botMsg = {id:Date.now()+1,role:"assistant",type:"offscope",content:"Esta consulta está fuera del ámbito operativo de Ultraport. No respondo temas ajenos a los procedimientos y emergencias de la operación."};
-    } else {
-      botMsg = {id:Date.now()+1,role:"assistant",type:"notfound",content:"No encontré información sobre esto en los procedimientos de Ultraport (ANG-P-105, ANG-P-146, ANG-P-250). Te recomiendo consultar directamente al Supervisor de Turno o al área de Seguridad y Operaciones."};
+
+    try {
+      const conversationHistory = [...messages, userMsg]
+        .filter(m => m.id !== 0)
+        .map(m => ({ role: m.role, content: m.content }));
+
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 1000,
+          system: SYSTEM_PROMPT,
+          messages: conversationHistory
+        })
+      });
+
+      if (!response.ok) throw new Error(`Error API: ${response.status}`);
+
+      const data = await response.json();
+      const rawText = data.content.filter(b => b.type === "text").map(b => b.text).join("\n");
+      const { clean, followups } = parseResponse(rawText);
+      const proc = detectProc(clean);
+
+      setMessages(prev => [...prev, {
+        id: Date.now() + 1,
+        role: "assistant",
+        type: "ai",
+        content: clean,
+        proc,
+        followups
+      }]);
+
+    } catch (err) {
+      setMessages(prev => [...prev, {
+        id: Date.now() + 1,
+        role: "assistant",
+        type: "error",
+        content: "Hubo un error al procesar tu consulta. Por favor intenta nuevamente."
+      }]);
+    } finally {
+      setLoading(false);
     }
-    setMessages(prev=>[...prev,botMsg]);
-    setLoading(false);
   };
 
   return (
     <div style={{display:"flex",justifyContent:"center",alignItems:"center",minHeight:"100vh",background:`linear-gradient(160deg,${BRAND.navy} 0%,${BRAND.navyLight} 100%)`,fontFamily:"-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif",padding:16}}>
-      <div style={{width:"100%",maxWidth:400,height:"88vh",maxHeight:780,background:BRAND.gray100,borderRadius:24,display:"flex",flexDirection:"column",overflow:"hidden",boxShadow:"0 24px 60px rgba(0,0,0,.4)"}}>
+      <div style={{width:"100%",maxWidth:400,height:"88vh",maxHeight:780,background:BRAND.gray100,borderRadius:24,display:"flex",flexDirection:"column",overflow:"hidden",boxShadow:"0 24px 60px rgba(0,0,0,.4)",position:"relative"}}>
+
+        {/* ── MENÚ PANEL ── */}
+        {showMenu && <MenuPanel onSelect={sendMessage} onClose={() => setShowMenu(false)}/>}
 
         {/* ── HEADER ── */}
         <div style={{background:`linear-gradient(135deg,${BRAND.navy},${BRAND.navyLight})`,padding:"14px 16px 12px",display:"flex",alignItems:"center",gap:10,borderBottom:`3px solid ${BRAND.red}`}}>
-          {/* Logo ola Ultraport */}
           <div style={{width:42,height:42,borderRadius:10,overflow:"hidden",flexShrink:0,border:`2px solid rgba(255,255,255,0.25)`}}>
             <LogoUltraport/>
           </div>
@@ -427,22 +607,26 @@ export default function UltrAI() {
               Base documental activa
             </div>
           </div>
-          {/* ULTRAPORT a la derecha — blanco explícito */}
-          <div style={{marginLeft:"auto",textAlign:"right",flexShrink:0}}>
+          {/* Botón menú */}
+          <button onClick={() => setShowMenu(true)}
+            title="Ver todos los procedimientos"
+            style={{background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.3)",borderRadius:8,padding:"6px 10px",cursor:"pointer",color:"white",fontSize:13,fontFamily:"inherit",display:"flex",alignItems:"center",gap:4}}>
+            📋
+          </button>
+          <div style={{textAlign:"right",flexShrink:0,marginLeft:4}}>
             <span style={{fontWeight:800,fontSize:12,color:"#FFFFFF",letterSpacing:".08em"}}>ULTRAPORT</span>
           </div>
         </div>
 
         {/* ── MENSAJES ── */}
         <div style={{flex:1,overflowY:"auto",padding:"16px 12px",display:"flex",flexDirection:"column"}}>
-          {messages.map(msg=>(
-            <Message key={msg.id} msg={msg} onDocAction={showDoc}/>
-          ))}
-          {messages.length===1 && (
+          {messages.map(msg => <Message key={msg.id} msg={msg} onFollowup={sendMessage}/>)}
+
+          {messages.length === 1 && (
             <div style={{marginTop:8}}>
               <div style={{fontSize:11,color:BRAND.gray500,fontWeight:600,textTransform:"uppercase",letterSpacing:".07em",marginBottom:8,paddingLeft:4}}>Consultas frecuentes</div>
-              {SUGGESTED.map((s,i)=>(
-                <button key={i} onClick={()=>sendMessage(s)}
+              {SUGGESTED.map((s,i) => (
+                <button key={i} onClick={() => sendMessage(s)}
                   style={{display:"block",width:"100%",textAlign:"left",background:BRAND.white,border:`1px solid ${BRAND.gray300}`,borderRadius:10,padding:"9px 12px",fontSize:13,color:BRAND.navy,cursor:"pointer",marginBottom:6,fontFamily:"inherit",lineHeight:1.4}}
                   onMouseEnter={e=>{e.currentTarget.style.borderColor=BRAND.red;e.currentTarget.style.background="#FFF5F7";}}
                   onMouseLeave={e=>{e.currentTarget.style.borderColor=BRAND.gray300;e.currentTarget.style.background=BRAND.white;}}>
@@ -451,6 +635,7 @@ export default function UltrAI() {
               ))}
             </div>
           )}
+
           {loading && (
             <div style={{display:"flex",justifyContent:"flex-start",marginBottom:12,alignItems:"flex-end",gap:8}}>
               <div style={{width:30,height:30,borderRadius:"50%",background:`linear-gradient(135deg,${BRAND.navy},${BRAND.navyLight})`,display:"flex",alignItems:"center",justifyContent:"center",border:`2px solid ${BRAND.red}`,overflow:"hidden"}}>
@@ -465,29 +650,16 @@ export default function UltrAI() {
           <div ref={bottomRef}/>
         </div>
 
-        {/* ── BARRA CONTEXTO ── */}
-        {activeProcFilter && (
-          <div style={{padding:"6px 12px",background:"#EFF6FA",borderTop:`1px solid ${BRAND.gray300}`,display:"flex",alignItems:"center",gap:8}}>
-            <div style={{fontSize:10,color:BRAND.gray500,flex:1}}>
-              Contexto: <strong style={{color:PROC_COLOR[activeProcFilter]}}>{PROC_EMOJI[activeProcFilter]} {activeProcFilter}</strong>
-            </div>
-            <button onClick={()=>setActiveProcFilter(null)}
-              style={{fontSize:10,background:"none",border:`1px solid ${BRAND.gray300}`,borderRadius:6,padding:"3px 8px",color:BRAND.gray500,cursor:"pointer",fontFamily:"inherit"}}>
-              Cambiar procedimiento
-            </button>
-          </div>
-        )}
-
         {/* ── INPUT ── */}
         <div style={{padding:"10px 12px 14px",background:BRAND.white,borderTop:`1px solid ${BRAND.gray300}`}}>
           <div style={{display:"flex",gap:8,alignItems:"flex-end"}}>
-            <textarea value={input} onChange={e=>setInput(e.target.value)}
-              onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendMessage();}}}
-              placeholder="Consulta un procedimiento..." rows={1}
+            <textarea value={input} onChange={e => setInput(e.target.value)}
+              onKeyDown={e => { if (e.key==="Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }}}
+              placeholder="Consulta en lenguaje natural..." rows={1}
               style={{flex:1,resize:"none",border:`1.5px solid ${BRAND.gray300}`,borderRadius:14,padding:"10px 14px",fontSize:14,fontFamily:"inherit",color:BRAND.gray700,background:BRAND.gray100,outline:"none",lineHeight:1.5}}
-              onFocus={e=>e.target.style.borderColor=BRAND.navy}
-              onBlur={e=>e.target.style.borderColor=BRAND.gray300}/>
-            <button onClick={()=>sendMessage()} disabled={!input.trim()||loading}
+              onFocus={e => e.target.style.borderColor=BRAND.navy}
+              onBlur={e => e.target.style.borderColor=BRAND.gray300}/>
+            <button onClick={() => sendMessage()} disabled={!input.trim() || loading}
               style={{width:42,height:42,borderRadius:12,background:!input.trim()||loading?BRAND.gray300:BRAND.red,border:"none",cursor:!input.trim()||loading?"not-allowed":"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,transition:"background .2s"}}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </button>
