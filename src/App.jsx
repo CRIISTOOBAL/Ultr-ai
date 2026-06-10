@@ -499,3 +499,4 @@ export default function UltrAI() {
       </div>
     </div>
   );
+}
