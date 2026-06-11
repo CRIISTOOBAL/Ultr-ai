@@ -147,6 +147,7 @@ const MENU_MARITIMO = [
     "Armado del rack",
     "Desarmado del rack",
     "Instrumentación en rack de descarga",
+    "Sistema LOTO — bloqueo y etiquetado de válvulas",
     "Conexiones",
     "Instalación de señalética y equipo contra incendio",
     "Instalación de manteletas",
@@ -591,8 +592,41 @@ DDS y ART al inicio de cada turno. Revisar secuencia de descarga de asfalto.
 - Ingreso camión externo: velocidad máxima 25 km/h. Conductor en zona segura.
 - Carguío a camión: solo cuando rack esté operativo y área despejada.
 
+[Sistema LOTO — Bloqueo y Etiquetado de Válvulas Críticas]
+El sistema LOTO (Bloqueo y Etiquetado) se implementa en las válvulas de ingreso y salida del sistema de descarga de asfalto.
+
+Cuándo se aplica LOTO:
+- Durante trabajos de descarga activa.
+- Durante desconexión de líneas.
+- Durante liberación de presión.
+- Durante control de fugas.
+- Ante cualquier intervención a realizar en el sistema.
+
+Responsables:
+- El encargado de nave y el encargado de tierra son los ÚNICOS autorizados para instalar y retirar los bloqueos LOTO.
+- Portan las tarjetas de bloqueo correspondientes.
+- Nadie más puede retirar un bloqueo LOTO instalado.
+
+Objetivo del LOTO:
+- Prevenir aperturas o cierres involuntarios de válvulas.
+- Evitar liberación de presión no controlada.
+- Prevenir derrames de producto durante la faena.
+
+Instrumentación de control asociada al LOTO:
+- Manómetro y termómetro en línea de retorno y descarga — monitoreo cada 30 minutos por el encargado de tierra.
+- Manómetro digital con registro y alarma de presión (rango 0-20 bar / 0-300 psi).
+- Válvula de alivio (sobrepresión) — se activa automáticamente derivando producto a estanque de contingencia.
+- Pistola de temperatura — verificación previa al desarme de rack y desconexión de flexibles.
+
+Retiro del sistema LOTO (fin de faena):
+1. El Loading Master confirma el término de la faena y certifica que el entorno es seguro.
+2. Se verifica la temperatura de las líneas mediante instrumentación — debe estar bajo el límite indicado por el Loading Master.
+3. Solo entonces el encargado de nave y el encargado de tierra proceden al retiro del LOTO.
+4. Durante el desarme: uso obligatorio de EPP específico para trabajos con asfalto caliente.
+
 [EPP — ANG-P-065]
 - Casco, crema UV, lentes, guantes anticorte-antigolpes, zapatos punta de acero, barbiquejo.
+- Para trabajos con asfalto caliente (desarme de rack): EPP específico para protección contra contacto con producto residual, superficies calientes o salpicaduras.
 
 
 == ANG-P-067: EMBARQUE DE CÁTODOS DE COBRE ==
@@ -1227,7 +1261,7 @@ export default function UltrAI() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": import.meta.env.VITE_ANTHROPIC_API_KEY,
+          "x-api-key": "REEMPLAZA_AQUI_TU_API_KEY",
           "anthropic-version": "2023-06-01",
           "anthropic-dangerous-direct-browser-access": "true",
         },
