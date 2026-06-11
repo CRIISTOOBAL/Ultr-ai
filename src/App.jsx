@@ -1227,7 +1227,7 @@ export default function UltrAI() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": import.meta.env.VITE_ANTHROPIC_API_KEY,
+          "x-api-key": "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",
           "anthropic-version": "2023-06-01",
           "anthropic-dangerous-direct-browser-access": "true",
         },
